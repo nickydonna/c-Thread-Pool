@@ -1,4 +1,4 @@
 c-Thread-Pool
 =============
 
-A pure C Thread Pool, usin POSIX library
+A pure C Thread Pool, using POSIX library
