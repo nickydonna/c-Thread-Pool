@@ -1,26 +1,25 @@
-#ifndef _PTHREADPOOL_H_
-	#define _PTHREADPOOL_H_
+#ifndef _PTHREAD_POOL_H_
+	#define _PTHREAD_POOL_H_
 
-enum pthread_status {
-	RUNNING,
-	SLEEPING
-};
+#include "task_list.h"
 
-struct Thread_Info {
-	int pthread_id;
-	pthread_status status;
-};
-
-struct ThreadPool {
+typedef struct {
 	pthread_info* pthreads;
 	int pthread_admin;
 	int min;
 	int max;
 	int current;
-	struct TaskList* list;
-};
+	TaskList* list;
+}pthread_pool;
 
-	void* funtionLoop (void*); //recibe el tasklist 
+typedef struct{
+	int min;
+	int max;
+	pthread_attr_t *create_attr;
+}pthread_pool_attr;
+
+	pthread_pool* pthread_pool_create(pthread_pool_attr*);
+	void* functionLoop (void*); /*recibe el tasklist */
 
 
 

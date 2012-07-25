@@ -1,10 +1,9 @@
 #include "task_queue.h"
 #include <stdlib.h>
 
-int queue_addNewTask(Task task, void *taskArgument, int taskId, QueueNode **first, QueueNode **last) {
-	QueueNode *new;
-	
-	new = (QueueNode *)malloc(sizeof(QueueNode));
+int queue_addNewTask(Task task, void *taskArgument, int taskId, TaskNode **first, TaskNode **last) {
+	TaskNode *new;
+	new = (TaskNode *)malloc(sizeof(TaskNode));
 	new->thread = 1234;
 	new->task = task;
 	new->argument = taskArgument;
@@ -21,9 +20,9 @@ int queue_addNewTask(Task task, void *taskArgument, int taskId, QueueNode **firs
 	return 0;
 }
 
-QueueNode *queue_getNextTask(QueueNode **first, QueueNode **last) {
+TaskNode *queue_getNextTask(TaskNode **first, TaskNode **last) {
 	
-	QueueNode *aux = NULL;
+	TaskNode *aux = NULL;
 	
 	aux = *first;
 	if(*first == *last) {

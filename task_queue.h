@@ -10,10 +10,10 @@ typedef struct C {
 	Task task;
 	void *argument;
 	struct C *next;
-} QueueNode;
+} TaskNode;
 
-int queue_addNewTask(Task task, void *taskArgument, int taskId,  QueueNode **first, QueueNode **last);
-QueueNode *queue_getNextTask(QueueNode **first, QueueNode **last);
+int queue_addNewTask(Task task, void *taskArgument, int taskId,  TaskNode **first, TaskNode **last);
+TaskNode *queue_getNextTask(TaskNode **first, TaskNode **last);
 
 
 #endif

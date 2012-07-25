@@ -3,16 +3,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "minunit.h"
+#include "mock.c"
 
 int tests_run = 0;
 
-QueueNode *first = NULL, *last = NULL;
-
-void *mock_function(void *value){
-	int *aux = (int *)value;
-	(*aux)++;
-	return aux;
-}
+TaskNode *first = NULL, *last = NULL;
 
 static char *test_addNewTask() {
 	int *value;
@@ -26,7 +21,7 @@ static char *test_addNewTask() {
 
 static char *test_getNextTask() {
 	int *value;
-	QueueNode *aux = NULL;
+	TaskNode *aux = NULL;
 	aux = queue_getNextTask(&first, &last);
 	mu_assert("Task_Queue: Error Queue is empty in test_getNextTask()!!", aux != NULL);
 	mu_assert("Task_Queue: Error Dind't get first value (taskId != 1) in test_getNextTask()!!", aux->taskId == 1);
@@ -50,9 +45,9 @@ int main(int argc, char **argv) {
 		printf("%s\n",result);
 	}
 	else {
-		printf("ALL TEST PASSED!!\n");
+		printf("\tTask_Queue: ALL TEST PASSED!!\n");
 	}
-	printf("Tests runned: %d\n", tests_run);
+	printf("\t\tTests runned: %d\n", tests_run);
 	return result != 0;
 }
 
