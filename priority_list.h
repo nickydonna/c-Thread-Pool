@@ -10,7 +10,7 @@ typedef struct E {
 	TaskNode *last;
 } ListNode;
 
-int list_addNewTask(Task task, void *argument, int priority, int taskId, ListNode **first, ListNode **last);
-TaskNode *list_getNextTask(ListNode **first, ListNode **last);
+int list_add_new_task(Task task, void *argument, int priority, int taskId, ListNode **first, ListNode **last);
+TaskNode *list_get_next_task(ListNode **first, ListNode **last);
 
 #endif

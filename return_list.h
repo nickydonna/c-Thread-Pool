@@ -10,15 +10,15 @@ enum tasks_states {
 };
 
 typedef struct D {
-	int taskId;
-	void *returnValue;
+	int task_id;
+	void *return_value;
 	struct D *next;
 	enum tasks_states task_state;
 } ReturnNode;
 
 
-int addReturnValue(ReturnNode **first, ReturnNode **last, void *returnValue, int taskId, enum tasks_states task_state, pthread_mutex_t *mutex);
-int changeReturnValue (ReturnNode **first, ReturnNode **last, void *returnValue, int taskId, enum tasks_states task_state, pthread_mutex_t *mutex);
+int add_return_value(ReturnNode **first, ReturnNode **last, void *return_value, int task_id, enum tasks_states task_state, pthread_mutex_t *mutex);
+int change_return_value (ReturnNode **first, ReturnNode **last, void *return_value, int task_id, enum tasks_states task_state, pthread_mutex_t *mutex);
 
 
 #endif

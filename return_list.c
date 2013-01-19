@@ -2,14 +2,14 @@
 #include "task_list.h"
 #include <stdlib.h>
 
-int addReturnValue (ReturnNode **first, ReturnNode **last, void *returnValue, int taskId, enum tasks_states task_state, pthread_mutex_t *mutex){
+int add_return_value (ReturnNode **first, ReturnNode **last, void *return_value, int task_id, enum tasks_states task_state, pthread_mutex_t *mutex){
 	ReturnNode *node = (ReturnNode*)malloc(sizeof(ReturnNode));
 	if (node == NULL){
 		return -1;
 	}
 	pthread_mutex_lock(mutex);
-	node->returnValue=returnValue;
-	node->taskId=taskId;
+	node->return_value=return_value;
+	node->task_id=task_id;
 	node->task_state=task_state;
 
 	node->next = NULL;
@@ -28,13 +28,13 @@ int addReturnValue (ReturnNode **first, ReturnNode **last, void *returnValue, in
 	return 0;
 }
 
-int changeReturnValue (ReturnNode **first, ReturnNode **last, void *returnValue, int taskId, enum tasks_states task_state, pthread_mutex_t *mutex){
+int change_return_value (ReturnNode **first, ReturnNode **last, void *return_value, int task_id, enum tasks_states task_state, pthread_mutex_t *mutex){
 	ReturnNode *node=NULL;
 	pthread_mutex_lock(mutex);
 	for (node=*first; node != NULL; node=node->next)
 	{
-		if (node->taskId == taskId){
-			node->returnValue = returnValue;
+		if (node->task_id == task_id){
+			node->return_value = return_value;
 			node->task_state = task_state;
 			pthread_mutex_unlock(mutex);
 			return 0;

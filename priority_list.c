@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int list_addNewTask(Task task, void *argument, int priority, int taskId,  ListNode **first, ListNode **last) {		
+int list_add_new_task(Task task, void *argument, int priority, int task_id,  ListNode **first, ListNode **last) {		
 	ListNode *aux, *new, *previous;
 
 	if (*first == NULL || *last == NULL) {
@@ -11,7 +11,7 @@ int list_addNewTask(Task task, void *argument, int priority, int taskId,  ListNo
 		new->first = NULL;
 		new->last = NULL;
 		new->next = NULL;
-		if(queue_addNewTask(task, argument, taskId, &(new->first), &(new->last)) == 0) {
+		if(queue_add_new_task(task, argument, task_id, &(new->first), &(new->last)) == 0) {
 			*first = *last = new;
 			return 0;
 		}
@@ -22,7 +22,7 @@ int list_addNewTask(Task task, void *argument, int priority, int taskId,  ListNo
 	
 	if(aux->priority == priority) {
 		
-		if(queue_addNewTask(task, argument, taskId, &(aux->first), &(aux->last)) == 0) {	
+		if(queue_add_new_task(task, argument, task_id, &(aux->first), &(aux->last)) == 0) {	
 			return 0;
 		}
 		return -1;
@@ -33,7 +33,7 @@ int list_addNewTask(Task task, void *argument, int priority, int taskId,  ListNo
 		new->priority = priority;
 		new->first = NULL;
 		new->last = NULL;
-		if(queue_addNewTask(task, argument, taskId, &(new->first), &(new->last)) == 0) {	
+		if(queue_add_new_task(task, argument, task_id, &(new->first), &(new->last)) == 0) {	
 			new->next = *first;
 			*first = new;
 			return 0;
@@ -45,7 +45,7 @@ int list_addNewTask(Task task, void *argument, int priority, int taskId,  ListNo
 		aux = aux->next;
 		
 		if(aux->priority == priority) {
-			if(queue_addNewTask(task, argument, taskId, &(aux->first), &(aux->last)) == 0) {
+			if(queue_add_new_task(task, argument, task_id, &(aux->first), &(aux->last)) == 0) {
 				return 0;
 			}
 			return -1;
@@ -55,7 +55,7 @@ int list_addNewTask(Task task, void *argument, int priority, int taskId,  ListNo
 			new->priority = priority;
 			new->first = NULL;
 			new->last = NULL;
-			if(queue_addNewTask(task, argument, taskId, &(new->first), &(new->last)) == 0) {	
+			if(queue_add_new_task(task, argument, task_id, &(new->first), &(new->last)) == 0) {	
 				previous->next = new;
 				new->next = aux;
 				return 0;
@@ -69,7 +69,7 @@ int list_addNewTask(Task task, void *argument, int priority, int taskId,  ListNo
 		new->priority = priority;
 		new->first = NULL;
 		new->last = NULL;
-		if(queue_addNewTask(task, argument, taskId, &(new->first), &(new->last)) == 0) {
+		if(queue_add_new_task(task, argument, task_id, &(new->first), &(new->last)) == 0) {
 			(*last)->next = new;
 			*last = new;
 			return 0;
@@ -78,7 +78,7 @@ int list_addNewTask(Task task, void *argument, int priority, int taskId,  ListNo
 	return -1;	
 }
 
-TaskNode *list_getNextTask(ListNode **first, ListNode **last) {
+TaskNode *list_get_next_task(ListNode **first, ListNode **last) {
 	TaskNode *task = NULL;
 	ListNode *aux = NULL;
 
@@ -93,7 +93,7 @@ TaskNode *list_getNextTask(ListNode **first, ListNode **last) {
 			break;
 		}
 	}
-	task = queue_getNextTask(&(aux->first), &(aux->last));
+	task = queue_get_next_task(&(aux->first), &(aux->last));
 	if (task == NULL) {
 		/* Generar Error de No hay Tareas */
 		return NULL;

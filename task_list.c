@@ -3,10 +3,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int addNewTask(TaskList **list, Task task, void *argument, int priority) {
+int add_new_task(TaskList **list, Task task, void *argument, int priority) {
 
-	if(pthread_mutex_lock(&((*list)->priorityListMutex)) != 0) return -1;
-	if(list_addNewTask(task, argument, priority, (*list)->nextTaskId, &((*list)->priorityFirstNode), &((*list)->priorityLastNode)) != 0){
+	if(pthread_mutex_lock(&((*list)->priority_list_mutex)) != 0) return -1;
+	if(list_add_new_task(task, argument, priority, (*list)->next_task_id, &((*list)->priority_first_node), &((*list)->priority_last_node)) != 0){
 		/* Set Error */
 		return -1;
 	}
@@ -14,13 +14,13 @@ int addNewTask(TaskList **list, Task task, void *argument, int priority) {
 		/* Set Error */
 		return -1;
 	}
-	if(addReturnValue(&((*list)->returnFirstNode), &((*list)->returnLastNode), NULL , (*list)->nextTaskId, TASK_NOT_STARTED, &(*list)->returnListMutex) != 0) {
+	if(add_return_value(&((*list)->return_first_node), &((*list)->return_last_node), NULL , (*list)->next_task_id, TASK_NOT_STARTED, &(*list)->return_list_mutex) != 0) {
 		/* Set Error */
 		return -1;
 	}
-	((*list)->nextTaskId)++;
-	if(pthread_mutex_unlock(&((*list)->priorityListMutex)) != 0) return -1;
-	if(addReturnValue(&(*list)->returnFirstNode, &(*list)->returnLastNode, NULL, (*list)->nextTaskId-1, TASK_NOT_STARTED, &(*list)->returnListMutex) != 0)
+	((*list)->next_task_id)++;
+	if(pthread_mutex_unlock(&((*list)->priority_list_mutex)) != 0) return -1;
+	if(add_return_value(&(*list)->return_first_node, &(*list)->return_last_node, NULL, (*list)->next_task_id-1, TASK_NOT_STARTED, &(*list)->return_list_mutex) != 0)
 	{
 		/* Set Error */
 		return -1;
@@ -28,7 +28,7 @@ int addNewTask(TaskList **list, Task task, void *argument, int priority) {
 	return 0;
 }
 
-TaskNode *getNextTask(TaskList **list) {
+TaskNode *get_next_task(TaskList **list) {
 	TaskNode *node = NULL;	
 
 	if(sem_wait(&((*list)->sem)) != 0){
@@ -36,40 +36,40 @@ TaskNode *getNextTask(TaskList **list) {
 		return NULL;
 	}
 
-	if (pthread_mutex_lock(&((*list)->priorityListMutex)) != 0) return NULL;
+	if (pthread_mutex_lock(&((*list)->priority_list_mutex)) != 0) return NULL;
 
-	if((node = list_getNextTask(&((*list)->priorityFirstNode), &((*list)->priorityLastNode))) == NULL) {
+	if((node = list_get_next_task(&((*list)->priority_first_node), &((*list)->priority_last_node))) == NULL) {
 		/*Set Error */
 		return NULL;
 	}
 	
 	/* Set RUNNING in return list */
-	if(pthread_mutex_unlock(&((*list)->priorityListMutex)) != 0) return NULL;
+	if(pthread_mutex_unlock(&((*list)->priority_list_mutex)) != 0) return NULL;
 
-	changeReturnValue (&(*list)->returnFirstNode, &(*list)->returnLastNode, NULL, node->taskId, TASK_RUNNING, &(*list)->returnListMutex);
+	change_return_value (&(*list)->return_first_node, &(*list)->return_last_node, NULL, node->task_id, TASK_RUNNING, &(*list)->return_list_mutex);
 	return node;
 }
 
 
-int getReturnValueById(TaskList** list, int taskId, void** valueReturned){
+int get_return_value_by_id(TaskList** list, int task_id, void** value_returned){
 	ReturnNode *node= NULL;
 	ReturnNode *aux= NULL;
 
-	pthread_mutex_lock(&(*list)->returnListMutex);
-	if ((*list)->returnFirstNode == NULL)
+	pthread_mutex_lock(&(*list)->return_list_mutex);
+	if ((*list)->return_first_node == NULL)
 	{
-		pthread_mutex_unlock(&(*list)->returnListMutex);
+		pthread_mutex_unlock(&(*list)->return_list_mutex);
 		return -1;
 	}
-	if ((*list)->returnFirstNode->taskId == taskId)
+	if ((*list)->return_first_node->task_id == task_id)
 	{
-		aux=((*list)->returnFirstNode);
+		aux=((*list)->return_first_node);
 		node=aux->next;
 	}
 	else
 	{
-		for(node=(*list)->returnFirstNode; node->next !=NULL; node=node->next){
-			if (node->next->taskId == taskId){
+		for(node=(*list)->return_first_node; node->next !=NULL; node=node->next){
+			if (node->next->task_id == task_id){
 				aux=node->next;
 				break;
 			}
@@ -77,29 +77,29 @@ int getReturnValueById(TaskList** list, int taskId, void** valueReturned){
 	}
 
 	if (aux==NULL){
-		pthread_mutex_unlock(&(*list)->returnListMutex);
+		pthread_mutex_unlock(&(*list)->return_list_mutex);
 		return -2;
 	}
 
 	if(aux->task_state != TASK_FINISHED)
 	{
-		pthread_mutex_unlock(&(*list)->returnListMutex);
+		pthread_mutex_unlock(&(*list)->return_list_mutex);
 		return aux->task_state;
 	}
-	*valueReturned=aux->returnValue;
+	*value_returned=aux->return_value;
 	
 	node->next=aux->next;
 
-	if (aux==(*list)->returnFirstNode){
-		(*list)->returnFirstNode=aux->next;
+	if (aux==(*list)->return_first_node){
+		(*list)->return_first_node=aux->next;
 	}
-	if (aux==(*list)->returnLastNode){
-		(*list)->returnLastNode=node;
-		(*list)->returnLastNode->next=NULL;
+	if (aux==(*list)->return_last_node){
+		(*list)->return_last_node=node;
+		(*list)->return_last_node->next=NULL;
 	}
 	free(aux);
 
-	pthread_mutex_unlock(&(*list)->returnListMutex);
+	pthread_mutex_unlock(&(*list)->return_list_mutex);
 	return aux->task_state;
 }
 

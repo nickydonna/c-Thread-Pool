@@ -19,19 +19,19 @@ typedef struct {
 
 typedef struct {
 	int work;
-	int nextTaskId;
+	int next_task_id;
 	sem_t sem;
 	pthread_info *pthreads;
-	pthread_mutex_t returnListMutex;
-	pthread_mutex_t priorityListMutex;
-	ListNode *priorityFirstNode;
-	ListNode *priorityLastNode;
-	ReturnNode *returnFirstNode;
-	ReturnNode *returnLastNode;
+	pthread_mutex_t return_list_mutex;
+	pthread_mutex_t priority_list_mutex;
+	ListNode *priority_first_node;
+	ListNode *priority_last_node;
+	ReturnNode *return_first_node;
+	ReturnNode *return_last_node;
 }TaskList;
 
-int addNewTask(TaskList **list, Task task, void* argument, int priority);
-TaskNode *getNextTask(TaskList **list);
-int getReturnValueById(TaskList** list, int taskId, void** valueReturned);
+int add_new_task(TaskList **list, Task task, void* argument, int priority);
+TaskNode *get_next_task(TaskList **list);
+int get_return_value_by_id(TaskList** list, int task_id, void** value_returned);
 
 #endif	

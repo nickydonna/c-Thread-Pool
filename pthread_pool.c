@@ -38,25 +38,25 @@ pthread_pool* pthread_pool_create(pthread_pool_attr *attr){
 	if (tp->list->pthreads == NULL){
 		return NULL;
 	}
-	tp->list->priorityFirstNode = NULL;
-	tp->list->priorityLastNode = NULL;
-	tp->list->returnFirstNode = NULL;
-	tp->list->returnLastNode = NULL;
-	tp->list->nextTaskId=1;
+	tp->list->priority_first_node = NULL;
+	tp->list->priority_last_node = NULL;
+	tp->list->return_first_node = NULL;
+	tp->list->return_last_node = NULL;
+	tp->list->next_task_id=1;
 	sem_init(&(tp->list->sem), 0, 0);
 	tp->list->work=0;
-	if (pthread_mutex_init(&(tp->list->returnListMutex), NULL) != 0)
+	if (pthread_mutex_init(&(tp->list->return_list_mutex), NULL) != 0)
 	{
 		return NULL;
 	}
-	if (pthread_mutex_init(&(tp->list->priorityListMutex), NULL) != 0)
+	if (pthread_mutex_init(&(tp->list->priority_list_mutex), NULL) != 0)
 	{
 		return NULL;
 	}
 
 	for (i=0; i<tp->max; i++){
 		int rv;
-		rv = pthread_create((pthread_t *) &(((tp->list->pthreads)+i)->pthread_id)  , create_attr, functionLoop, tp->list);
+		rv = pthread_create((pthread_t *) &(((tp->list->pthreads)+i)->pthread_id)  , create_attr, function_loop, tp->list);
 		if (rv != 0){
 			return NULL;
 		}
@@ -68,9 +68,9 @@ pthread_pool* pthread_pool_create(pthread_pool_attr *attr){
 }
 
 
-void* functionLoop (void* tlist){
+void* function_loop (void* tlist){
 	TaskList * list = (TaskList *) tlist;
-	TaskNode *currentTask = NULL;
+	TaskNode *current_task = NULL;
 	int work = 1;
 	void * returnValue;
 	while (work != 0){
@@ -79,9 +79,9 @@ void* functionLoop (void* tlist){
 			list->work-=1;
 			break;
 		}
-		currentTask = getNextTask(&list);
-		returnValue = currentTask->task(currentTask->argument);
-		changeReturnValue(&(list->returnFirstNode), &(list->returnLastNode), returnValue, currentTask->taskId, TASK_FINISHED, &list->returnListMutex);
+		current_task = get_next_task(&list);
+		returnValue = current_task->task(current_task->argument);
+		change_return_value(&(list->return_first_node), &(list->return_last_node), return_value, current_task->task_id, TASK_FINISHED, &list->return_list_mutex);
 	}
 
 	return NULL;

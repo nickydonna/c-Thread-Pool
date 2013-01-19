@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
 		return -1;
 	}
 	while(1) {
-		if(addNewTask(&(tp->list), mock_function, (void *)value, i) != 0) {
+		if(add_new_task(&(tp->list), mock_function, (void *)value, i) != 0) {
 			printf("Main: Error couldn't add Task");
 			return -1;
 		}
