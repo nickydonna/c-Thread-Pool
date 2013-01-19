@@ -7,7 +7,7 @@
 
 int tests_run = 0;
 
-TaskNode *first = NULL, *last = NULL;
+task_node_t *first = NULL, *last = NULL;
 
 static char *test_add_new_task() {
 	int *value;
@@ -21,7 +21,7 @@ static char *test_add_new_task() {
 
 static char *test_get_next_task() {
 	int *value;
-	TaskNode *aux = NULL;
+	task_node_t *aux = NULL;
 	aux = queue_get_next_task(&first, &last);
 	mu_assert("Task_Queue: Error Queue is empty in test_get_next_task()!!", aux != NULL);
 	mu_assert("Task_Queue: Error Dind't get first value (task_id != 1) in test_get_next_task()!!", aux->task_id == 1);

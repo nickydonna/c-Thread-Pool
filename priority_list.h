@@ -6,11 +6,11 @@ typedef struct E {
 	struct E *next;
 	int priority;
 	
-	TaskNode *first;
-	TaskNode *last;
-} ListNode;
+	task_node_t *first;
+	task_node_t *last;
+} list_node_t;
 
-int list_add_new_task(Task task, void *argument, int priority, int taskId, ListNode **first, ListNode **last);
-TaskNode *list_get_next_task(ListNode **first, ListNode **last);
+int list_add_new_task(task_t task, void *argument, int priority, int task_id, list_node_t **first, list_node_t **last);
+task_node_t *list_get_next_task(list_node_t **first, list_node_t **last);
 
 #endif

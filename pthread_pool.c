@@ -29,7 +29,7 @@ pthread_pool* pthread_pool_create(pthread_pool_attr *attr){
 		tp->max = 20;
 	}
 	tp->current =0;
-	tp->list=malloc(sizeof(TaskList));
+	tp->list=malloc(sizeof(task_list_t));
 	if (tp->list == NULL){
 		return NULL;
 	}
@@ -69,8 +69,8 @@ pthread_pool* pthread_pool_create(pthread_pool_attr *attr){
 
 
 void* function_loop (void* tlist){
-	TaskList * list = (TaskList *) tlist;
-	TaskNode *current_task = NULL;
+	task_list_t * list = (task_list_t *) tlist;
+	task_node *current_task = NULL;
 	int work = 1;
 	void * returnValue;
 	while (work != 0){

@@ -13,25 +13,19 @@ enum pthread_status {
 };
 
 typedef struct {
-        pthread_t pthread_id;
-        enum pthread_status status;
-}pthread_info;
-
-typedef struct {
 	int work;
 	int next_task_id;
 	sem_t sem;
-	pthread_info *pthreads;
 	pthread_mutex_t return_list_mutex;
 	pthread_mutex_t priority_list_mutex;
-	ListNode *priority_first_node;
-	ListNode *priority_last_node;
-	ReturnNode *return_first_node;
-	ReturnNode *return_last_node;
-}TaskList;
+	list_node_t *priority_first_node;
+	list_node_t *priority_last_node;
+	return_node_t *return_first_node;
+	return_node_t *return_last_node;
+}task_list_t;
 
-int add_new_task(TaskList **list, Task task, void* argument, int priority);
-TaskNode *get_next_task(TaskList **list);
-int get_return_value_by_id(TaskList** list, int task_id, void** value_returned);
+int add_new_task(task_list_t **list, task_t task, void* argument, int priority);
+task_node_t *get_next_task(task_list_t **list);
+int get_return_value_by_id(task_list_t** list, int task_id, void** value_returned);
 
 #endif	

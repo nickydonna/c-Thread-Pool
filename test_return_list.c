@@ -5,11 +5,11 @@
 #include "minunit.h"
 
 int tests_run = 0;
-TaskList *list;
+task_list_t *list;
 
 static char *test_add_return_value() {
 	int *r1, *r2, *r3;
-	list= malloc(sizeof(TaskList));
+	list= malloc(sizeof(task_list_t));
 	r1= malloc (sizeof(int));
 	r2= malloc (sizeof(int));
 	r3= malloc (sizeof(int));

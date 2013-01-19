@@ -2,11 +2,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int list_add_new_task(Task task, void *argument, int priority, int task_id,  ListNode **first, ListNode **last) {		
-	ListNode *aux, *new, *previous;
+int list_add_new_task(task_t task, void *argument, int priority, int task_id,  list_node_t **first, list_node_t **last) {		
+	list_node_t *aux, *new, *previous;
 
 	if (*first == NULL || *last == NULL) {
-		new = (ListNode *)malloc(sizeof(ListNode));
+		new = (list_node_t *)malloc(sizeof(list_node_t));
 		new->priority = priority;
 		new->first = NULL;
 		new->last = NULL;
@@ -29,7 +29,7 @@ int list_add_new_task(Task task, void *argument, int priority, int task_id,  Lis
 	}
 
 	if(aux->priority > priority) {
-		new = (ListNode *)malloc(sizeof(ListNode));
+		new = (list_node_t *)malloc(sizeof(list_node_t));
 		new->priority = priority;
 		new->first = NULL;
 		new->last = NULL;
@@ -51,7 +51,7 @@ int list_add_new_task(Task task, void *argument, int priority, int task_id,  Lis
 			return -1;
 		}
 		if(aux->priority > priority) {
-			new = (ListNode *)malloc(sizeof(ListNode));
+			new = (list_node_t *)malloc(sizeof(list_node_t));
 			new->priority = priority;
 			new->first = NULL;
 			new->last = NULL;
@@ -65,7 +65,7 @@ int list_add_new_task(Task task, void *argument, int priority, int task_id,  Lis
 	}
 	
 	if(aux->priority < priority) {
-		new = (ListNode *)malloc(sizeof(ListNode));
+		new = (list_node_t *)malloc(sizeof(list_node_t));
 		new->priority = priority;
 		new->first = NULL;
 		new->last = NULL;
@@ -78,9 +78,9 @@ int list_add_new_task(Task task, void *argument, int priority, int task_id,  Lis
 	return -1;	
 }
 
-TaskNode *list_get_next_task(ListNode **first, ListNode **last) {
-	TaskNode *task = NULL;
-	ListNode *aux = NULL;
+task_node_t *list_get_next_task(list_node_t **first, list_node_t **last) {
+	task_node_t *task = NULL;
+	list_node_t *aux = NULL;
 
 	aux = *first;
 

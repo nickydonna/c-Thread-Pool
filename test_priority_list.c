@@ -6,7 +6,7 @@
 
 int tests_run = 0;
 
-ListNode *first = NULL, *last = NULL;
+list_node_t *first = NULL, *last = NULL;
 
 static char *test_add_new_task() {
 	int *value, *value2;
@@ -22,7 +22,7 @@ static char *test_add_new_task() {
 }
 
 static char *test_get_next_task() {
-	TaskNode *node = NULL;
+	task_node_t *node = NULL;
 	int *val;
 	val = (int *)malloc(sizeof(int));
 	node = list_get_next_task(&first, &last);

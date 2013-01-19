@@ -24,8 +24,6 @@ int main(int argc, char *argv[]) {
 		}
 		i++;
 	}
-
-	
 	sleep(5);
 	return 0;
 }

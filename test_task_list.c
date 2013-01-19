@@ -7,11 +7,11 @@
 
 int tests_run = 0;
 
-TaskList *list = NULL;
+task_list_t *list = NULL;
 
 static char *set_up() {
 	int res = 0;
-	list = (TaskList *)malloc(sizeof(TaskList));
+	list = (task_list_t *)malloc(sizeof(task_list_t));
 	mu_assert("Task_List: Error Couldn't malloc in set_up!!",list != NULL);	
 	res += pthread_mutex_init(&(list->priority_list_mutex), NULL);
 	res += pthread_mutex_init(&(list->return_list_mutex), NULL);
@@ -42,7 +42,7 @@ static char *test_add_new_task() {
 
 static char *test_get_next_task() {
 	int *value = NULL;
-	TaskNode *task = NULL;
+	task_node *task = NULL;
 	value = (int *)malloc(sizeof(int));
 	task = get_next_task(&list);
 	mu_assert("Task_List: Error Couldn't retrieve first task from List in test_get_next_task()!!", task != NULL);
