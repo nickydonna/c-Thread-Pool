@@ -1,7 +1,6 @@
 #include "task_queue.h"
-#include <stdlib.h>
 
-int queue_add_new_task(task_t task, void *task_argument, int task_id, task_node_t **first, task_node_t **last) {
+int queue_add_new_task(task_t task, void *task_argument, uuid_t task_id, task_node_t **first, task_node_t **last) {
 	task_node_t *new;
 	new = (task_node_t *)malloc(sizeof(task_node_t));	
 	new->task = task;

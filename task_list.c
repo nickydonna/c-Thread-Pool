@@ -4,9 +4,10 @@
 #include <stdio.h>
 
 int add_new_task(task_list_t **list, task_t task, void *argument, int priority) {
-
+	uuid_t task_id;
 	if(pthread_mutex_lock(&((*list)->priority_list_mutex)) != 0) return -1;
-	if(list_add_new_task(task, argument, priority, (*list)->next_task_id, &((*list)->priority_first_node), &((*list)->priority_last_node)) != 0){
+	uuid_generate(task_id);
+	if(list_add_new_task(task, argument, priority, task_id, &((*list)->priority_first_node), &((*list)->priority_last_node)) != 0){
 		/* Set Error */
 		return -1;
 	}
@@ -14,11 +15,10 @@ int add_new_task(task_list_t **list, task_t task, void *argument, int priority) 
 		/* Set Error */
 		return -1;
 	}
-	if(add_return_value(&((*list)->return_first_node), &((*list)->return_last_node), NULL , (*list)->next_task_id, TASK_NOT_STARTED, &(*list)->return_list_mutex) != 0) {
+	if(add_return_value(&((*list)->return_first_node), &((*list)->return_last_node), NULL , task_id, TASK_NOT_STARTED, &(*list)->return_list_mutex) != 0) {
 		/* Set Error */
 		return -1;
 	}
-	((*list)->next_task_id)++;
 	if(pthread_mutex_unlock(&((*list)->priority_list_mutex)) != 0) return -1;
 	return 0;
 }
@@ -46,7 +46,7 @@ task_node_t *get_next_task(task_list_t **list) {
 }
 
 
-int get_return_value_by_id(task_list_t** list, int task_id, void** value_returned){
+int get_return_value_by_id(task_list_t** list, uuid_t task_id, void** value_returned){
 	return_node_t *node= NULL;
 	return_node_t *aux= NULL;
 

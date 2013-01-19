@@ -11,11 +11,14 @@ task_node_t *first = NULL, *last = NULL;
 
 static char *test_add_new_task() {
 	int *value;
+	uuid_t id;
+	uuid_generate(id);
 	value = (int *)malloc(sizeof(int));
 	*value = 1;
-	mu_assert("Task_Queue: Error inserting function in test_add_new_task()!!", queue_add_new_task(mock_function, (void *)value, 1, &first, &last) == 0);
+	mu_assert("Task_Queue: Error inserting function in test_add_new_task()!!", queue_add_new_task(mock_function, (void *)value, id, &first, &last) == 0);
+	uuid_generate(id);
 	*value++;
-	mu_assert("Task_Queue: Error inserting function in test_add_new_task()!!", queue_add_new_task(mock_function, (void *)value, 2, &first, &last) == 0);
+	mu_assert("Task_Queue: Error inserting function in test_add_new_task()!!", queue_add_new_task(mock_function, (void *)value, id, &first, &last) == 0);
 	return 0;
 }
 

@@ -1,10 +1,10 @@
 #ifndef _TASK_LIST_H_
 	#define _TASK_LIST_H_
+	#include <stdlib.h>
 	#include "priority_list.h"
 	#include "return_list.h"
 	#include <pthread.h>
 	#include <semaphore.h>
-
 
 enum pthread_status {
         THREAD_RUNNING,
@@ -14,7 +14,6 @@ enum pthread_status {
 
 typedef struct {
 	int work;
-	int next_task_id;
 	sem_t sem;
 	pthread_mutex_t return_list_mutex;
 	pthread_mutex_t priority_list_mutex;
@@ -26,6 +25,6 @@ typedef struct {
 
 int add_new_task(task_list_t **list, task_t task, void* argument, int priority);
 task_node_t *get_next_task(task_list_t **list);
-int get_return_value_by_id(task_list_t** list, int task_id, void** value_returned);
+int get_return_value_by_id(task_list_t** list, uuid_t task_id, void** value_returned);
 
 #endif	

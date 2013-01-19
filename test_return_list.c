@@ -7,7 +7,16 @@
 int tests_run = 0;
 task_list_t *list;
 
+uuid_t id_one;
+uuid_t id_two;
+uuid_t id_three;
+
 static char *test_add_return_value() {
+
+	uuid_generate(id_one);
+	uuid_generate(id_two);
+	uuid_generate(id_three);
+
 	int *r1, *r2, *r3;
 	list= malloc(sizeof(task_list_t));
 	r1= malloc (sizeof(int));
@@ -23,24 +32,24 @@ static char *test_add_return_value() {
 	*r2 = 2;
 	*r3 = 3;
 
-	mu_assert("Task_List: Error in test_add_return_value(1)!!", ( add_return_value(&(list->return_first_node), &(list->return_last_node), (void *) r1, 1, TASK_FINISHED, &(list->return_list_mutex))  == 0 )   );
-	mu_assert("Task_List: Error in test_add_return_value(2)!!", ( add_return_value(&(list->return_first_node), &(list->return_last_node), (void *) r2, 2, TASK_FINISHED, &(list->return_list_mutex))  == 0 )   );
-	mu_assert("Task_List: Error in test_add_return_value(3)!!", ( add_return_value(&(list->return_first_node), &(list->return_last_node), (void *) r3, 3, TASK_FINISHED, &(list->return_list_mutex))  == 0 )   );
+	mu_assert("Task_List: Error in test_add_return_value(1)!!", ( add_return_value(&(list->return_first_node), &(list->return_last_node), (void *) r1, id_one, TASK_FINISHED, &(list->return_list_mutex))  == 0 )   );
+	mu_assert("Task_List: Error in test_add_return_value(2)!!", ( add_return_value(&(list->return_first_node), &(list->return_last_node), (void *) r2, id_two, TASK_FINISHED, &(list->return_list_mutex))  == 0 )   );
+	mu_assert("Task_List: Error in test_add_return_value(3)!!", ( add_return_value(&(list->return_first_node), &(list->return_last_node), (void *) r3, id_three, TASK_FINISHED, &(list->return_list_mutex))  == 0 )   );
 	
 	return 0;
 }
 
 static char *test_get_return_value_by_id() {
 	int *rv=NULL;
-	mu_assert("Task_List: Error in test_get_return_value_by_id(1)!!",  get_return_value_by_id(&list, 2, (void *) &rv)==TASK_FINISHED);
+	mu_assert("Task_List: Error in test_get_return_value_by_id(1)!!",  get_return_value_by_id(&list, id_two, (void *) &rv)==TASK_FINISHED);
 	mu_assert("Task_List: Error in test_get_return_value_by_id(1) Not the expected return value!!", (*(int *) rv ==2));
 	free(rv);
 	rv=NULL;
-	mu_assert("Task_List: Error in test_get_return_value_by_id(2)!!", get_return_value_by_id(&list, 1, (void *) &rv)== TASK_FINISHED );
+	mu_assert("Task_List: Error in test_get_return_value_by_id(2)!!", get_return_value_by_id(&list, id_one, (void *) &rv)== TASK_FINISHED );
 	mu_assert("Task_List: Error in test_get_return_value_by_id(2) Not the expected return value!!", (*(int *) rv==1));
 	free(rv);
 	rv=NULL;
-	mu_assert("Task_List: Error in test_get_return_value_by_id(3)!!", get_return_value_by_id(&list, 3, (void *) &rv)== TASK_FINISHED );
+	mu_assert("Task_List: Error in test_get_return_value_by_id(3)!!", get_return_value_by_id(&list, id_three, (void *) &rv)== TASK_FINISHED );
 	mu_assert("Task_List: Error in test_get_return_value_by_id(3) Not the expected return value!!", (*(int *)rv ==3));
 
 	return 0;

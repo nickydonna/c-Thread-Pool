@@ -10,14 +10,20 @@ list_node_t *first = NULL, *last = NULL;
 
 static char *test_add_new_task() {
 	int *value, *value2;
+	uuid_t id;
+	uuid_generate(id);
 	value = (int *)malloc(sizeof(int));
 	value2 = (int *)malloc(sizeof(int));
+
 	*value = 1;
-	mu_assert("Priority_List: Error adding function to list (task_id = 1) in test_add_new_task()", list_add_new_task(mock_function, (void *)value, 20, 1, &first, &last) == 0);	
+	mu_assert("Priority_List: Error adding function to list (task_id = 1) in test_add_new_task()", list_add_new_task(mock_function, (void *)value, 20, id, &first, &last) == 0);
+	uuid_generate(id);
 	*value2 = 2;
-	mu_assert("Priority_List: Error adding function to list (task_id = 2) in test_add_new_task()", list_add_new_task(mock_function, (void *)value, 10, 2, &first, &last) == 0);
-	mu_assert("Priority_List: Error adding function to list (task_id = 3) in test_add_new_task()", list_add_new_task(mock_function, (void *)value2, 15, 3, &first, &last) == 0);	
-	mu_assert("Priority_List: Error adding function to list (task_id = 3) in test_add_new_task()", list_add_new_task(mock_function, (void *)value, 30, 4, &first, &last) == 0);
+	mu_assert("Priority_List: Error adding function to list (task_id = 2) in test_add_new_task()", list_add_new_task(mock_function, (void *)value, 10, id, &first, &last) == 0);
+	uuid_generate(id);
+	mu_assert("Priority_List: Error adding function to list (task_id = 3) in test_add_new_task()", list_add_new_task(mock_function, (void *)value2, 15, id, &first, &last) == 0);	
+	uuid_generate(id);
+	mu_assert("Priority_List: Error adding function to list (task_id = 3) in test_add_new_task()", list_add_new_task(mock_function, (void *)value, 30, id, &first, &last) == 0);
 	return 0;
 }
 

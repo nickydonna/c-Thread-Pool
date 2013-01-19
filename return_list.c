@@ -1,8 +1,7 @@
 #include "return_list.h"
 #include "task_list.h"
-#include <stdlib.h>
 
-int add_return_value (return_node_t **first, return_node_t **last, void *return_value, int task_id, enum tasks_states task_state, pthread_mutex_t *mutex){
+int add_return_value (return_node_t **first, return_node_t **last, void *return_value, unsigned char * task_id, enum tasks_states task_state, pthread_mutex_t *mutex){
 	return_node_t *node = (return_node_t*)malloc(sizeof(return_node_t));
 	if (node == NULL){
 		return -1;
@@ -28,7 +27,7 @@ int add_return_value (return_node_t **first, return_node_t **last, void *return_
 	return 0;
 }
 
-int change_return_value (return_node_t **first, return_node_t **last, void *return_value, int task_id, enum tasks_states task_state, pthread_mutex_t *mutex){
+int change_return_value (return_node_t **first, return_node_t **last, void *return_value, unsigned char * task_id, enum tasks_states task_state, pthread_mutex_t *mutex){
 	return_node_t *node=NULL;
 	pthread_mutex_lock(mutex);
 	for (node=*first; node != NULL; node=node->next)

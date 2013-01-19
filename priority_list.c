@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int list_add_new_task(task_t task, void *argument, int priority, int task_id,  list_node_t **first, list_node_t **last) {		
+int list_add_new_task(task_t task, void *argument, int priority, uuid_t task_id,  list_node_t **first, list_node_t **last) {		
 	list_node_t *aux, *new, *previous;
 
 	if (*first == NULL || *last == NULL) {

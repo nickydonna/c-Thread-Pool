@@ -77,6 +77,7 @@ void* function_loop (void* tlist){
 		if (list->work > 0){
 			work = 0;
 			list->work-=1;
+			pthread_detach(pthread_self());
 			break;
 		}
 		current_task = get_next_task(&list);
