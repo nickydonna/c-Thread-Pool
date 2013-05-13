@@ -37,7 +37,7 @@ test_priority_list: test_priority_list.c priority_list.o task_queue.o
 	$(CC) $(CTESTF) $(LIBS) -o $@.sh $^ $(LUUID)
 	./test_priority_list.sh
 
-test_return_list: test_return_list.c return_list.o
+test_return_list: test_return_list.c return_list.o task_list.o task_queue.o priority_list.o
 	$(CC) $(CTESTF) $(LIBS) -o $@.sh $^ $(LUUID)
 	./test_return_list.sh	
 
