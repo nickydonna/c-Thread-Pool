@@ -1,37 +1,52 @@
+SHELL =  /bin/sh
+
+.SUFFIXIES:
+.SUFFIXIES: .o .c
+
 CC = gcc
 CFLAGS = -pedantic -Wall
+CTESTF = -w -DNDEBUG
 LIBS = -pthread
 LUUID = -luuid
 
-test_pthread_pool: pthread_pool.c task_queue.c return_list.c priority_list.c task_list.c test_pthread_pool.c
-	$(CC) $(CFLAGS) $(LIBS) -o $@ $^ $(LUUID)
-	./test_pthread_pool
+all: pthread_pool.o task_list.o return_list.o priority_list.o task_queue.o
+	ar rcs libphthreadpool.a $^
+pthread_pool.o: pthread_pool.c
+	$(CC) $(CFLAGS) $(LIBS) -c $^
 
-test_task_queue: task_queue.c test_task_queue.c
-	$(CC) $(CFLAGS) $(LIBS) -o $@ $^ $(LUUID)
-	./test_task_queue
+task_list.o: task_list.c
+	$(CC) $(CFLAGS) $(LIBS) -c $^
 
-test_return_list: return_list.c test_return_list.c task_list.c priority_list.c task_queue.c
-	$(CC) $(CFLAGS) $(LIBS) -o $@ $^ $(LUUID)
-	./test_return_list
+return_list.o: return_list.c
+	$(CC) $(CFLAGS) $(LIBS) -c $^
 
-test_priority_list: priority_list.c test_priority_list.c task_queue.c
-	$(CC) $(CFLAGS) $(LIBS) -o $@ $^ $(LUUID)
-	./test_priority_list
+priority_list.o: priority_list.c
+	$(CC) $(CFLAGS) $(LIBS) -c $^
 
-test_task_list: task_list.c test_task_list.c priority_list.c task_queue.c return_list.c
-	$(CC) $(CFLAGS) $(LIBS) -o $@ $^ $(LUUID)
-	./test_task_list
+task_queue.o: task_queue.c
+	$(CC) $(CFLAGS) $(LIBS) -c $^
 
-test_all_the_things: pthread_pool.c task_queue.c return_list.c priority_list.c task_list.c task_queue.c main.c
-	$(CC) $(CFLAGS) $(LIBS) -o $@ $^ $(LUUID)
-	./test_all_the_things
+clean:
+	rm -f *.o *.a *.sh
 
-test: test_task_queue test_return_list test_priority_list
-	./test_task_queue
-	./test_return_list
-	./test_priority_list
-	./test_task_list
-	./test_pthread_pool
-	
+test_task_queue: test_task_queue.c task_queue.o
+	$(CC) $(CTESTF) $(LIBS) -o $@.sh $^ $(LUUID)
+	./test_task_queue.sh
 
+test_priority_list: test_priority_list.c priority_list.o task_queue.o
+	$(CC) $(CTESTF) $(LIBS) -o $@.sh $^ $(LUUID)
+	./test_priority_list.sh
+
+test_return_list: test_return_list.c return_list.o
+	$(CC) $(CTESTF) $(LIBS) -o $@.sh $^ $(LUUID)
+	./test_return_list.sh	
+
+test_task_list: test_task_list.c task_list.o task_queue.o priority_list.o return_list.o
+	$(CC) $(CTESTF) $(LIBS) -o $@.sh $^ $(LUUID)
+	./test_task_list.sh
+
+test_pthread_pool: test_pthread_pool.c task_list.o task_queue.o priority_list.o return_list.o pthread_pool.o
+	$(CC) $(CTESTF) $(LIBS) -o $@.sh $^ $(LUUID)
+	./test_pthread_pool.sh
+
+test_all: clean test_task_queue test_priority_list test_return_list test_task_queue test_pthread_pool

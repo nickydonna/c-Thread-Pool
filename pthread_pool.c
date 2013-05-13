@@ -5,6 +5,7 @@
 #include <unistd.h>
 pthread_pool* pthread_pool_create(pthread_pool_attr *attr){
 	pthread_pool *tp=NULL;
+	pthread_t *thread = NULL;
 	int i;
 	pthread_attr_t *create_attr=NULL;
 	tp = malloc(sizeof(pthread_pool));
@@ -34,15 +35,14 @@ pthread_pool* pthread_pool_create(pthread_pool_attr *attr){
 		return NULL;
 	}
 
-	tp->list->pthreads=malloc(sizeof(pthread_info) * tp->max);
-	if (tp->list->pthreads == NULL){
+	thread = malloc(sizeof(pthread_t));
+	if (thread == NULL){
 		return NULL;
 	}
 	tp->list->priority_first_node = NULL;
 	tp->list->priority_last_node = NULL;
 	tp->list->return_first_node = NULL;
 	tp->list->return_last_node = NULL;
-	tp->list->next_task_id=1;
 	sem_init(&(tp->list->sem), 0, 0);
 	tp->list->work=0;
 	if (pthread_mutex_init(&(tp->list->return_list_mutex), NULL) != 0)
@@ -56,7 +56,7 @@ pthread_pool* pthread_pool_create(pthread_pool_attr *attr){
 
 	for (i=0; i<tp->max; i++){
 		int rv;
-		rv = pthread_create((pthread_t *) &(((tp->list->pthreads)+i)->pthread_id)  , create_attr, function_loop, tp->list);
+		rv = pthread_create(thread, create_attr, function_loop, tp->list);
 		if (rv != 0){
 			return NULL;
 		}
@@ -70,9 +70,9 @@ pthread_pool* pthread_pool_create(pthread_pool_attr *attr){
 
 void* function_loop (void* tlist){
 	task_list_t * list = (task_list_t *) tlist;
-	task_node *current_task = NULL;
+	task_node_t *current_task = NULL;
 	int work = 1;
-	void * returnValue;
+	void *return_value;
 	while (work != 0){
 		if (list->work > 0){
 			work = 0;
@@ -81,7 +81,7 @@ void* function_loop (void* tlist){
 			break;
 		}
 		current_task = get_next_task(&list);
-		returnValue = current_task->task(current_task->argument);
+		return_value = current_task->task(current_task->argument);
 		change_return_value(&(list->return_first_node), &(list->return_last_node), return_value, current_task->task_id, TASK_FINISHED, &list->return_list_mutex);
 	}
 

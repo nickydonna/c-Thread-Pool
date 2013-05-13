@@ -4,12 +4,11 @@
 #include "task_list.h"
 
 typedef struct {
-	pthread_info* pthreads;
 	int pthread_admin;
 	int min;
 	int max;
 	int current;
-	TaskList* list;
+	task_list_t* list;
 }pthread_pool;
 
 typedef struct{

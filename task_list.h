@@ -15,6 +15,7 @@ enum pthread_status {
 typedef struct {
 	int work;
 	sem_t sem;
+	
 	pthread_mutex_t return_list_mutex;
 	pthread_mutex_t priority_list_mutex;
 	list_node_t *priority_first_node;

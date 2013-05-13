@@ -20,7 +20,6 @@ static char *set_up() {
 	list->priority_last_node = NULL;
 	list->return_first_node = NULL;
 	list->return_last_node = NULL;
-	list->next_task_id = 1;
 	list->work = 0;
 	return 0;
 }
@@ -42,7 +41,7 @@ static char *test_add_new_task() {
 
 static char *test_get_next_task() {
 	int *value = NULL;
-	task_node *task = NULL;
+	task_node_t *task = NULL;
 	value = (int *)malloc(sizeof(int));
 	task = get_next_task(&list);
 	mu_assert("Task_List: Error Couldn't retrieve first task from List in test_get_next_task()!!", task != NULL);
