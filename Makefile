@@ -5,7 +5,7 @@ SHELL =  /bin/sh
 
 CC = gcc
 CFLAGS = -pedantic -Wall
-CTESTF = -w -DNDEBUG
+CTESTF = -w
 LIBS = -pthread
 LUUID = -luuid
 

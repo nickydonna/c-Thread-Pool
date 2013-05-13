@@ -26,16 +26,18 @@ static char *set_up() {
 
 
 static char *test_add_new_task() {
-	int *value = NULL, *value2 = NULL;
+	int *value = NULL, *value2 = NULL, *value3 = NULL;
 	value = (int *)malloc(sizeof(int));
 	value2 = (int *)malloc(sizeof(int));
+	value3 = (int *)malloc(sizeof(int));
 	mu_assert("Task_List: Error couldn't malloc in test_add_new_task()!!", value != NULL && value != NULL);
 	*value = 1;
 	*value2 = 2;
+	*value3 = 3;
 	mu_assert("Task_List: Error Couldn't initialize Semaphore in test_add_new_task!!", sem_init(&(list->sem), 0, 0) == 0);
 	mu_assert("Task_List: Error Couldn't add First Task in test_add_new_task!!", add_new_task(&list, mock_function, (void *)value, 20) == 0);
 	mu_assert("Task_List: Error Couldn't add First Task in test_add_new_task!!", add_new_task(&list, mock_function, (void *)value2, 20) == 0);
-	mu_assert("Task_List: Error Couldn't add First Task in test_add_new_task!!", add_new_task(&list, mock_function, (void *)value, 40) == 0);
+	mu_assert("Task_List: Error Couldn't add First Task in test_add_new_task!!", add_new_task(&list, mock_function, (void *)value3, 40) == 0);
 	return 0;
 }
 
@@ -44,6 +46,7 @@ static char *test_get_next_task() {
 	task_node_t *task = NULL;
 	value = (int *)malloc(sizeof(int));
 	task = get_next_task(&list);
+	printf("hi\n");
 	mu_assert("Task_List: Error Couldn't retrieve first task from List in test_get_next_task()!!", task != NULL);
 	value = (int *)task->task(task->argument);
 	mu_assert("Task_List: Error Task didn't work properly in test_get_next_task()!!", *value == 2);
@@ -54,6 +57,7 @@ static char *test_get_next_task() {
 	task = get_next_task(&list);
 	mu_assert("Task_List: Error Couldn't retrieve third task from List in test_get_next_task()!!", task != NULL);
 	task = get_next_task(&list);
+	printf("hi\n");
 	mu_assert("Task_List: Error Task is not null when list should be empty!!", task == NULL);
 	return 0;
 }
