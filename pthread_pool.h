@@ -19,6 +19,7 @@ typedef struct{
 
 	pthread_pool* pthread_pool_create(pthread_pool_attr*);
 	void* function_loop (void*); /*recibe el tasklist */
+	void pthread_pool_destroy(pthread_pool *tp);
 
 
 

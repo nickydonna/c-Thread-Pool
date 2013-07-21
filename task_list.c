@@ -25,7 +25,7 @@ int add_new_task(task_list_t **list, task_t task, void *argument, int priority) 
 
 task_node_t *get_next_task(task_list_t **list) {
 	task_node_t *node = NULL;	
-	//Arreglar esto para catchear el errno y permitir los tests
+	/* Arreglar esto para catchear el errno y permitir los tests */
 	#ifdef TEST
 	if(sem_trywait(&((*list)->sem)) != 0){
 		/* Set Error */

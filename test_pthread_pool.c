@@ -26,8 +26,9 @@ static char *test_function_loop() {
 	rv=NULL;
 	mu_assert("Task_List: Error in test_getReturnValueById(3)!!", getReturnValueById(&list, 3, (void *) &rv)== 0 );
 	mu_assert("Task_List: Error in test_getReturnValueById(3) Not the expected return value!!", (*(int *)rv ==3));
-*/
+
 	return 0;
+*/
 }
 static char *run_all_test() {
 	mu_run_test(test_pthread_pool_create);

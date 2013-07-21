@@ -74,9 +74,12 @@ void* function_loop (void* tlist){
 	int work = 1;
 	void *return_value;
 	while (work != 0){
-		if (list->work > 0){
+		if (list->work != 0){
 			work = 0;
 			list->work-=1;
+
+			pthread_barrier_wait(&(list->barrier));
+
 			pthread_detach(pthread_self());
 			break;
 		}
@@ -88,6 +91,10 @@ void* function_loop (void* tlist){
 	return NULL;
 }
 
-
-
+void pthread_pool_destroy(pthread_pool *tp) {
+	pthread_barrier_init(&(tp->list->barrier), NULL, tp->current + 1);
+	tp->list->work = -1;
+	pthread_barrier_wait(&(tp->list->barrier));
+	return;
+}
 

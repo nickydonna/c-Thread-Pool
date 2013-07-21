@@ -31,22 +31,26 @@ clean:
 
 test_task_queue: test_task_queue.c task_queue.o
 	$(CC) $(CTESTF) $(LIBS) -o $@.sh $^ $(LUUID)
-	./test_task_queue.sh
+	./$@.sh
 
 test_priority_list: test_priority_list.c priority_list.o task_queue.o
 	$(CC) $(CTESTF) $(LIBS) -o $@.sh $^ $(LUUID)
-	./test_priority_list.sh
+	./$@.sh
 
 test_return_list: test_return_list.c return_list.o task_list.o task_queue.o priority_list.o
 	$(CC) $(CTESTF) $(LIBS) -o $@.sh $^ $(LUUID)
-	./test_return_list.sh	
+	./$@.sh	
 
 test_task_list: test_task_list.c task_list.o task_queue.o priority_list.o return_list.o
 	$(CC) $(CTESTF) $(LIBS) -o $@.sh $^ $(LUUID)
-	./test_task_list.sh
+	./$@.sh
 
 test_pthread_pool: test_pthread_pool.c task_list.o task_queue.o priority_list.o return_list.o pthread_pool.o
 	$(CC) $(CTESTF) $(LIBS) -o $@.sh $^ $(LUUID)
-	./test_pthread_pool.sh
+	./$@.sh
 
 test_all: clean test_task_queue test_priority_list test_return_list test_task_queue test_pthread_pool
+
+test_all_the_things: main.c task_list.o task_queue.o priority_list.o return_list.o pthread_pool.o
+	$(CC) $(TESTF) $(LIBS) -o $@.sh $^ $(LUUID)
+	./$@.sh

@@ -8,11 +8,9 @@ void *mock_function(void *value){
 	for (i; i < 100; i+=2) {
 		i--;
 	}
-	#ifndef NDEBUG
 	char buff[50];
 	sprintf(buff, "Value: %d", *aux);
 	d_print(buff);
-	#endif
         return aux;
 }
 

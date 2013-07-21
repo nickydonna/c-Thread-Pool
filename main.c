@@ -17,13 +17,15 @@ int main(int argc, char *argv[]) {
 		printf("Main: Error pthread_pool_create returns NULL");
 		return -1;
 	}
-	while(1) {
+	while(i < 100) {
 		if(add_new_task(&(tp->list), mock_function, (void *)value, i) != 0) {
 			printf("Main: Error couldn't add Task");
 			return -1;
 		}
 		i++;
 	}
-	sleep(5);
+	
+	pthread_pool_destroy(tp);
+
 	return 0;
 }

@@ -22,6 +22,8 @@ typedef struct {
 	list_node_t *priority_last_node;
 	return_node_t *return_first_node;
 	return_node_t *return_last_node;
+
+	pthread_barrier_t barrier;
 }task_list_t;
 
 int add_new_task(task_list_t **list, task_t task, void* argument, int priority);
